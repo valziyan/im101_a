@@ -6,10 +6,8 @@
     <title>Registration</title>
 </head>
 <body>
-    <h1>Registration</h1>
-    <form action="actions/action_register.php" method="post">
-        <label>Name:</label>
-        <input type="text" name="name" /><br />
+    <h1>Login</h1>
+    <form action="actions/action_login.php" method="post">
         <label>Username:</label>
         <input type="text" name="username" /><br />
         <label>Password:</label>
