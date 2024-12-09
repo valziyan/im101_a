@@ -9,7 +9,7 @@ $password = $_POST['password'];
 
 try {
     // retrieve user
-    $sql = "SELECT username, password FROM user WHERE username = :username";
+    $sql = "SELECT id, name, username, password FROM user WHERE username = :username";
     $result = $conn->prepare($sql);
 
     // Bind parameters
