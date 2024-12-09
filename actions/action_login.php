@@ -1,28 +1,51 @@
 <?php
 
-// include database connection
+// Include the database connection file
 include 'db.php';
 
-// Capture values from form
+// capture post data
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
 try {
-    // Insert user data into the database using a prepared statement
+    // retrieve user
     $sql = "SELECT username, password FROM user WHERE username = :username";
-    $stmt = $conn->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
-    // Execute the statement
-    $stmt->execute([
-        'username' => $username
-    ]);
-    $result = $stmt->fetchAll();
-    // echo $result['username'];
+    $result = $conn->prepare($sql);
 
-    // echo $hashed_password;
-    print_r($result);
-    
+    // Bind parameters
+    $result->bindParam(':username', $username);
+
+    // Execute the statement
+    $result->execute();
+
+    // set fetch mode
+    $result->setFetchMode(PDO::FETCH_ASSOC);
+
+    // user result
+    $user = $result->fetch();
+
+    // password verification
+    if( password_verify($password, $user['password']) ) {
+
+        // Start User Session [user_id]
+        session_start();
+
+        // Store result into session variable user
+        $_SESSION['user'] = $user;
+
+        // Redirect the newly registered
+        header('Location: ../profile.php');
+
+    } else {
+        
+        // Redirect the newly registered
+        header('Location: ../login.php?error=invalid credentials');
+    }
+
+
+
 } catch (PDOException $e) {
+
     echo "Error: " . $e->getMessage();
-}
+
+}   

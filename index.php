@@ -9,9 +9,9 @@
     <h1>Registration</h1>
     <form action="actions/action_register.php" method="post">
         <label>Name:</label>
-        <input type="text" name="name" /><br />
+        <input type="text" name="name" required /><br />
         <label>Username:</label>
-        <input type="text" name="username" /><br />
+        <input type="text" name="username" required /><br />
         <label>Password:</label>
         <input type="password" name="password" /><br />
         <input type="submit" value="submit" />

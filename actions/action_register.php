@@ -30,7 +30,24 @@ try {
     // // Execute the statement
     $stmt->execute();
 
-    echo "New Registration Successful!";
+    // Start User Session [user_id]
+    // and Get ID of The Last Inserted Record
+    session_start();
+    $user_id = $conn->lastInsertId();
+
+    // retrive user data
+    $sql2 = "SELECT id, name, username, date_joined FROM user WHERE id = $user_id";
+    $result = $conn->prepare($sql2);
+    $result->execute();
+
+    // set fetch mode
+    $result->setFetchMode(PDO::FETCH_ASSOC);
+
+    // Store result into session variable user
+    $_SESSION['user'] = $result->fetch();
+
+    // Redirect the newly registered
+    header('Location: ../profile.php');
     
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
